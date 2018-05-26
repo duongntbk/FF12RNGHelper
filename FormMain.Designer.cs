@@ -68,6 +68,12 @@
             this.backgroundWorkerConsume = new System.ComponentModel.BackgroundWorker();
             this.gbPlatform = new System.Windows.Forms.GroupBox();
             this.cbPlatform = new System.Windows.Forms.ComboBox();
+            this.groupBoxActionList = new System.Windows.Forms.GroupBox();
+            this.btnGetActList = new System.Windows.Forms.Button();
+            this.tbTarget = new System.Windows.Forms.TextBox();
+            this.lblTarget = new System.Windows.Forms.Label();
+            this.tbCurrentPos = new System.Windows.Forms.TextBox();
+            this.lblCurrentPos = new System.Windows.Forms.Label();
             this.menuStrip1.SuspendLayout();
             this.gbStats.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
@@ -75,6 +81,7 @@
             this.groupBoxChoose.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             this.gbPlatform.SuspendLayout();
+            this.groupBoxActionList.SuspendLayout();
             this.SuspendLayout();
             // 
             // menuStrip1
@@ -115,7 +122,7 @@
             // aboutToolStripMenuItem
             // 
             this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
-            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(116, 22);
             this.aboutToolStripMenuItem.Text = "About...";
             this.aboutToolStripMenuItem.Click += new System.EventHandler(this.aboutToolStripMenuItem_Click);
             // 
@@ -134,7 +141,7 @@
             this.tbMagic.Name = "tbMagic";
             this.tbMagic.Size = new System.Drawing.Size(40, 20);
             this.tbMagic.TabIndex = 3;
-            this.tbMagic.Text = "21";
+            this.tbMagic.Text = "23";
             this.tbMagic.Validating += new System.ComponentModel.CancelEventHandler(this.tbMagic_Validating);
             // 
             // cbSpellPow
@@ -226,7 +233,7 @@
             this.stealCuffs});
             this.dataGridView1.Location = new System.Drawing.Point(13, 83);
             this.dataGridView1.Name = "dataGridView1";
-            this.dataGridView1.Size = new System.Drawing.Size(516, 338);
+            this.dataGridView1.Size = new System.Drawing.Size(516, 343);
             this.dataGridView1.TabIndex = 14;
             // 
             // Position
@@ -336,7 +343,7 @@
             this.groupBoxSearch.Controls.Add(this.btnContinue);
             this.groupBoxSearch.Controls.Add(this.lblLastHeal);
             this.groupBoxSearch.Controls.Add(this.btnBegin);
-            this.groupBoxSearch.Location = new System.Drawing.Point(12, 427);
+            this.groupBoxSearch.Location = new System.Drawing.Point(12, 437);
             this.groupBoxSearch.Name = "groupBoxSearch";
             this.groupBoxSearch.Size = new System.Drawing.Size(517, 51);
             this.groupBoxSearch.TabIndex = 2;
@@ -353,7 +360,7 @@
             this.groupBoxChoose.Controls.Add(this.lblNumDisp);
             this.groupBoxChoose.Controls.Add(this.tbPosition);
             this.groupBoxChoose.Controls.Add(this.lblPosition);
-            this.groupBoxChoose.Location = new System.Drawing.Point(13, 484);
+            this.groupBoxChoose.Location = new System.Drawing.Point(13, 493);
             this.groupBoxChoose.Name = "groupBoxChoose";
             this.groupBoxChoose.Size = new System.Drawing.Size(516, 53);
             this.groupBoxChoose.TabIndex = 3;
@@ -422,7 +429,7 @@
             this.toolStripProgressBarPercent,
             this.toolStripStatusLabelPercent,
             this.toolStripStatusLabelProgress});
-            this.statusStrip1.Location = new System.Drawing.Point(0, 540);
+            this.statusStrip1.Location = new System.Drawing.Point(0, 619);
             this.statusStrip1.Name = "statusStrip1";
             this.statusStrip1.Size = new System.Drawing.Size(541, 22);
             this.statusStrip1.TabIndex = 5;
@@ -478,11 +485,70 @@
             this.cbPlatform.TabIndex = 10;
             this.cbPlatform.SelectionChangeCommitted += new System.EventHandler(this.cbPlatform_SelectionChangeCommitted);
             // 
+            // groupBoxActionList
+            // 
+            this.groupBoxActionList.Controls.Add(this.btnGetActList);
+            this.groupBoxActionList.Controls.Add(this.tbTarget);
+            this.groupBoxActionList.Controls.Add(this.lblTarget);
+            this.groupBoxActionList.Controls.Add(this.tbCurrentPos);
+            this.groupBoxActionList.Controls.Add(this.lblCurrentPos);
+            this.groupBoxActionList.Location = new System.Drawing.Point(13, 552);
+            this.groupBoxActionList.Name = "groupBoxActionList";
+            this.groupBoxActionList.Size = new System.Drawing.Size(516, 54);
+            this.groupBoxActionList.TabIndex = 15;
+            this.groupBoxActionList.TabStop = false;
+            this.groupBoxActionList.Text = "Action List";
+            // 
+            // btnGetActList
+            // 
+            this.btnGetActList.Location = new System.Drawing.Point(320, 22);
+            this.btnGetActList.Name = "btnGetActList";
+            this.btnGetActList.Size = new System.Drawing.Size(75, 23);
+            this.btnGetActList.TabIndex = 20;
+            this.btnGetActList.Text = "Go";
+            this.btnGetActList.UseVisualStyleBackColor = true;
+            this.btnGetActList.Click += new System.EventHandler(this.btnGetActList_Click);
+            // 
+            // tbTarget
+            // 
+            this.tbTarget.Location = new System.Drawing.Point(227, 22);
+            this.tbTarget.Name = "tbTarget";
+            this.tbTarget.Size = new System.Drawing.Size(86, 20);
+            this.tbTarget.TabIndex = 19;
+            this.tbTarget.Text = "80,95";
+            // 
+            // lblTarget
+            // 
+            this.lblTarget.AutoSize = true;
+            this.lblTarget.Location = new System.Drawing.Point(185, 25);
+            this.lblTarget.Name = "lblTarget";
+            this.lblTarget.Size = new System.Drawing.Size(41, 13);
+            this.lblTarget.TabIndex = 18;
+            this.lblTarget.Text = "Target:";
+            // 
+            // tbCurrentPos
+            // 
+            this.tbCurrentPos.Location = new System.Drawing.Point(93, 22);
+            this.tbCurrentPos.Name = "tbCurrentPos";
+            this.tbCurrentPos.Size = new System.Drawing.Size(86, 20);
+            this.tbCurrentPos.TabIndex = 17;
+            this.tbCurrentPos.Text = "0";
+            // 
+            // lblCurrentPos
+            // 
+            this.lblCurrentPos.AutoSize = true;
+            this.lblCurrentPos.Location = new System.Drawing.Point(6, 25);
+            this.lblCurrentPos.Name = "lblCurrentPos";
+            this.lblCurrentPos.Size = new System.Drawing.Size(84, 13);
+            this.lblCurrentPos.TabIndex = 16;
+            this.lblCurrentPos.Text = "Current Position:";
+            // 
             // FormMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(541, 562);
+            this.ClientSize = new System.Drawing.Size(541, 641);
+            this.Controls.Add(this.groupBoxActionList);
             this.Controls.Add(this.gbPlatform);
             this.Controls.Add(this.statusStrip1);
             this.Controls.Add(this.groupBoxChoose);
@@ -506,6 +572,8 @@
             this.statusStrip1.ResumeLayout(false);
             this.statusStrip1.PerformLayout();
             this.gbPlatform.ResumeLayout(false);
+            this.groupBoxActionList.ResumeLayout(false);
+            this.groupBoxActionList.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -553,6 +621,12 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn stealCuffs;
         private System.Windows.Forms.GroupBox gbPlatform;
         private System.Windows.Forms.ComboBox cbPlatform;
+        private System.Windows.Forms.GroupBox groupBoxActionList;
+        private System.Windows.Forms.Button btnGetActList;
+        private System.Windows.Forms.TextBox tbTarget;
+        private System.Windows.Forms.Label lblTarget;
+        private System.Windows.Forms.TextBox tbCurrentPos;
+        private System.Windows.Forms.Label lblCurrentPos;
     }
 }
 

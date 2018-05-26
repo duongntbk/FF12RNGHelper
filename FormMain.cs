@@ -29,10 +29,10 @@ namespace FF12RNGHelper
             InitializeComponent();
 
             cbSpellPow.SelectedIndex = 0;
-            cbPlatform.SelectedIndex = 0;
+            cbPlatform.SelectedIndex = 1;
             healVals = new List<UInt32>();
-            searchRNG = new RNG1998();
-            dispRNG = new RNG1998();
+            searchRNG = new RNG2002();
+            dispRNG = new RNG2002();
             toolStripStatusLabelPercent.Text = "";
             toolStripStatusLabelProgress.Text = "";
         }
@@ -99,6 +99,8 @@ namespace FF12RNGHelper
                 return;
             }
             displayRNG(index, index + 500);
+            highlightCurrentStep();
+            setCurrentPos();
         }
 
         private void btnContinue_Click(object sender, EventArgs e)
@@ -112,6 +114,8 @@ namespace FF12RNGHelper
             DateTime endt = DateTime.Now;
             toolStripStatusLabelPercent.Text = (endt - begint).ToString();
             displayRNG(index-(ulong)healVals.Count+1, index + 500);
+            highlightCurrentStep();
+            setCurrentPos();
         }
 
         private bool findNext(UInt32 value)
@@ -389,6 +393,81 @@ namespace FF12RNGHelper
                 searchRNG = new RNG2002();
             }
         }
+
+        private UInt64 findRowByPercentage(List<uint> values)
+        {
+            for (int j = 0; j < dataGridView1.Rows.Count - values.Count; j++ )
+            {
+                var isFound = true;
+                for (int i = 0; i < values.Count; i++)
+                {
+                    if ((uint)dataGridView1.Rows[j + i].Cells[3].Value <= values[i])
+                    {
+                        isFound = false;
+                    }
+                }
+                if (isFound)
+                {
+                    return (UInt64)dataGridView1.Rows[j - 1].Cells[0].Value;
+                }
+            }
+            return 0;
+        }
+
+        private void btnGetActList_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                var targetList = convertStringToListUint(tbTarget.Text);
+                var targetIndex = findRowByPercentage(targetList);
+                if (targetIndex != 0)
+                {
+                    var diff = targetIndex - ulong.Parse(tbCurrentPos.Text);
+                    var hitCount = diff / 10;
+                    var cureCount = diff - diff / 10 * 10;
+                    var msg = string.Format("Target index:{0}{1}Hit self:{2}{3}Cure:{4}",
+                        targetIndex, Environment.NewLine, hitCount, Environment.NewLine, cureCount);
+                    MessageBox.Show(msg);
+                }
+                else
+                {
+                    MessageBox.Show("Cannot find target, please hard reset your console.");
+                }
+
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private List<uint> convertStringToListUint(string input)
+        {
+            var rs = new List<uint>();
+            var stringList = input.Split(',');
+            foreach (var value in stringList)
+            {
+                rs.Add(uint.Parse(value));
+            }
+            return rs;
+        }
+
+        private void setCurrentPos()
+        {
+            var lastHeal = tbLastHeal.Text;
+            var currentPos = dataGridView1.Rows
+                .Cast<DataGridViewRow>()
+                .Where(n => n.Cells[2].Value.ToString() == lastHeal)
+                .First()
+                .Cells[0].Value;
+            tbCurrentPos.Text = currentPos.ToString();    
+        }
+
+        private void highlightCurrentStep()
+        {
+            dataGridView1.Rows[0].Cells[0].Selected = false;
+            dataGridView1.Rows[healVals.Count - 1].Cells[0].Selected = true;
+        }
     }
 
     //Fairly basic circular buffer. The last thing I want to do is run out of memory while churning through random numbers.
@@ -489,6 +568,5 @@ namespace FF12RNGHelper
             }
             worker.ReportProgress(100);
         }
-
     }
 }
